@@ -16,6 +16,7 @@ class Billwise
     @httpi_log        =  params[:httpi_log]     || false
     @ssl_verify_mode  =  params[:verify_mode]   || :peer
     @read_timeout     =  params[:read_timeout]  || 300
+    @open_timeout     =  params[:open_timeout]  || 60
 
     Savon.configure do |config|
       config.log            =  log
@@ -36,6 +37,7 @@ class Billwise
     end
 
     @soap_driver.http.read_timeout                =  @read_timeout
+    @soap_driver.http.open_timeout                =  @open_timeout
     @soap_driver.http.auth.ssl.verify_mode        =  @ssl_verify_mode.to_sym                                     # or one of [:peer, :fail_if_no_peer_cert, :client_once]
     @soap_driver.http.auth.ssl.cert_key_file      =  params[:cert_key_file]      if  params[:cert_key_file]      # the private key file to use
     @soap_driver.http.auth.ssl.cert_key_password  =  params[:cert_key_password]  if  params[:cert_key_password]  # the key file's password
